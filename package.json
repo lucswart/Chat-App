@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "client-install": "npm install --prefix chat-app",
-    "build": "concurrently \"cd chat-app && npm run build\" \"npm build \"",
+    "build": "cd chat-app && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd ./chat-app && npm start ",
     "server-prod": "node app.js",
