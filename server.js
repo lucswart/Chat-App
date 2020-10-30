@@ -103,7 +103,7 @@ app.post("/messages/new", (req, res) => {
 //Listen
 app.listen(port, () => console.log(`Listening on localhost: ${port}`));
 
+// add middleware
+app.use(express.static("./chat-app/build"));
+
 // password db: Lxyc9pwKslhPtpPk
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../chat-app/build"));
-}
