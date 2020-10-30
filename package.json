@@ -10,7 +10,7 @@
     "client": "cd ./chat-app && npm start ",
     "server-prod": "node server.js",
     "server": "nodemon server.js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "start:dev": "concurrently --kill-others  \"npm run chat-app\" \"npm run server\" ",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix chat-app && npm run build --prefix chat-app"
   },
