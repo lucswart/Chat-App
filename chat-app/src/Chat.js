@@ -20,7 +20,7 @@ function Chat({ messages }) {
 
     setInput("");
   };
-
+  //its worth to note that you need to attach a key for each map item
   return (
     <div className="chat">
       <div className="chat__header">
@@ -47,13 +47,11 @@ function Chat({ messages }) {
       <div className="chat__body">
         {messages.map((message) => (
           <p
-            className={`chat__message ${message.received ?? "chat__receiver"}`}
+            className={`chat__message ${message.received || "chat__receiver"}`}
           >
             <span className="chat__name">{message.name}</span>
             {message.message}
-            <span className="chat__timestamp">
-              {new Date(message.timestamp)}
-            </span>
+            <span className="chat__timestamp">{message.timestamp}</span>
           </p>
         ))}
       </div>
