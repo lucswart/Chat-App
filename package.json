@@ -8,9 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "client-install": "npm install --prefix chat-app",
     "start": "node server.js",
-    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
-    "build": "cd chat-app && npm run build",
-    "install-client": "cd chat-app && npm install"
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env"
   },
   "author": "Luc Swart",
   "license": "ISC",
