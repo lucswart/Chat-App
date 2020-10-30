@@ -6,6 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd chat-app && npm run build",
+    "install-client": "cd chat-app && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "client": "cd chat-app && npm start",
     "start": "node server.js"
   },
   "author": "Luc Swart",
