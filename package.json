@@ -10,8 +10,7 @@
     "start": "node server.js",
     "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "build": "cd chat-app && npm run build",
-    "install-client": "cd chat-app && npm install",
-    "heroku-postbuild": "npm run install-chat-app && npm run build"
+    "install-client": "cd chat-app && npm install"
   },
   "author": "Luc Swart",
   "license": "ISC",
