@@ -106,4 +106,18 @@ app.listen(port, () => console.log(`Listening on localhost: ${port}`));
 // add middleware
 app.use(express.static("./chat-app/build"));
 
+app.use(express.static(path.join(__dirname, "./chat-app/build")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./chat-app/build")));
+  //
+  app.get("*", (req, res) => {
+    res.sendfile(path.join((__dirname = "./chat-app/build/index.html")));
+  });
+}
+//build mode
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "./chat-app/public/index.html"));
+});
+
 // password db: Lxyc9pwKslhPtpPk

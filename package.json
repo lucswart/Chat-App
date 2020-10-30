@@ -5,10 +5,15 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "client-install": "npm install --prefix chat-app",
-    "start": "node server.js",
-    "server": "nodemon server.js --exec babel-node --presets babel-preset-env"
+    "build": "concurrently \"cd chat-app && npm run build\" \"npm build \"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd ./chat-app && npm start ",
+    "server-prod": "node app.js",
+    "server": "nodemon app.js",
+    "start": "node app.js",
+    "start:dev": "concurrently --kill-others  \"npm run chat-app\" \"npm run server\" ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix chat-app && npm run build --prefix chat-app"
   },
   "author": "Luc Swart",
   "license": "ISC",
