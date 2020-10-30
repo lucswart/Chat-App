@@ -6,11 +6,12 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "npm install --prefix chat-app",
+    "start": "node server.js",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "build": "cd chat-app && npm run build",
     "install-client": "cd chat-app && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "client": "cd chat-app && npm start",
-    "start": "node server.js"
+    "heroku-postbuild": "npm run install-chat-app && npm run build"
   },
   "author": "Luc Swart",
   "license": "ISC",
