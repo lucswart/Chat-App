@@ -53,7 +53,12 @@
   direction: ltr;
 }
 
+.chat__message .false {
+  margin-left: 30px;
+}
+
 .chat__receiver {
+  margin-right: 30px;
   margin-left: auto;
   background-color: #dcf8c6;
 }
