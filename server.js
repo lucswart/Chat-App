@@ -34,21 +34,6 @@ db.once("open", () => {
   const msgCollection = db.collection("messagecontents");
   const groupCollection = db.collection("groups");
   const changeStream = msgCollection.watch();
-
-  changeStream.on("change", (change) => {
-    if (change.operationType === "insert") {
-      const messageDetails = change.fullDocument;
-      pusher.trigger("messages", "inserted", {
-        //DO NOT USE THIS IN PRODUCTION ENVIRONMENT MESSAGES ARE NOT ENCRYPTED.
-        name: messageDetails.name,
-        message: messageDetails.message,
-        timestamp: messageDetails.timestamp,
-        received: messageDetails.received,
-      });
-    } else {
-      console.log("Error triggering Pusher");
-    }
-  });
 });
 
 //API Routes
