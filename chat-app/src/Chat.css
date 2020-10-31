@@ -43,6 +43,7 @@
   border-radius: 10px;
   background-color: #ffffff;
   margin-bottom: 30px;
+  margin-left: 30px;
 
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -57,6 +58,7 @@
 }
 
 .chat__receiver {
+  margin-left: 0px;
   margin-right: 30px;
   margin-left: auto;
   background-color: #dcf8c6;
