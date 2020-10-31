@@ -5,6 +5,7 @@ import { SearchOutlined, AttachFile, MoreVert } from "@material-ui/icons";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import axios from "./axios";
 import { useStateValue } from "./StateProvider";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat({ messages }) {
   //Get user values
@@ -50,7 +51,7 @@ function Chat({ messages }) {
         </div>
       </div>
 
-      <div className="chat__body">
+      <ScrollToBottom className="chat__body">
         {messages.map((message) => (
           <p
             className={`chat__message ${
@@ -62,7 +63,7 @@ function Chat({ messages }) {
             <span className="chat__timestamp">{message.timestamp}</span>
           </p>
         ))}
-      </div>
+      </ScrollToBottom>
       <div className="chat__footer">
         <InsertEmoticonIcon />
         <form>
