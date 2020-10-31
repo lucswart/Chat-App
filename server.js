@@ -20,11 +20,8 @@ const pusher = new Pusher({
 app.use(express.json());
 app.use(cors());
 
-//DB config
-const connection_url =
-  "mongodb+srv://admin:Lxyc9pwKslhPtpPk@cluster0.bm881.mongodb.net/<chatappdb>?retryWrites=true&w=majority";
-
-mongoose.connect(connection_url, {
+//DB confg
+mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
