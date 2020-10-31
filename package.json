@@ -6,12 +6,9 @@
   "type": "module",
   "scripts": {
     "client-install": "npm install --prefix chat-app",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "cd ./chat-app && npm start ",
-    "server-prod": "node server.js",
-    "server": "nodemon server.js",
     "start": "node server.js",
-    "start:dev": "concurrently --kill-others  \"npm run chat-app\" \"npm run server\" ",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "client": "npm start --prefix chat-app",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix chat-app && npm run build --prefix chat-app"
   },
   "author": "Luc Swart",
@@ -21,8 +18,5 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.11",
     "pusher": "^4.0.0"
-  },
-  "engines": {
-    "node": "6.2.1"
   }
 }
