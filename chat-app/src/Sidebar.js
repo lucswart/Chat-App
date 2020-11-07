@@ -6,14 +6,14 @@ import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Avatar, IconButton } from "@material-ui/core";
 import SearchOutLined from "@material-ui/icons/SearchOutlined";
-import SidebarChat from "./SidebarChat";
 import { useStateValue } from "./StateProvider";
 import SettingsIcon from "@material-ui/icons/Settings";
 import InfoIcon from "@material-ui/icons/Info";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import axios from "./axios";
+import "./SidebarChat.css";
 
-function Sidebar({ groups }) {
+function Sidebar({ groups, groupid, setGroup, groupname, setGroupname }) {
   const createChat = () => {
     const roomName = prompt("Please enter a name for the group");
     if (roomName) {
@@ -37,6 +37,17 @@ function Sidebar({ groups }) {
 
   //Get user values
   const [{ user }] = useStateValue();
+
+  const [seed, setSeed] = useState("");
+
+  const setGroupnameid = (groupname, groupid) => {
+    setGroupname(groupname);
+    setGroup(groupid);
+  };
+
+  useEffect(() => {
+    setSeed(Math.floor(Math.random() * 5000));
+  }, []);
 
   return (
     <div className="sidebar">
@@ -62,11 +73,22 @@ function Sidebar({ groups }) {
         </div>
       </div>
       <div className="sidebar__chats">
-        <SidebarChat
-          onClick={(value) => alert(value)}
-          groups={groups}
-          user={user}
-        />
+        {groups.map((group) => (
+          <div
+            key={group._id}
+            className={`sidebarChat ${group._id === groupid && "active"}`}
+            onClick={() => setGroupnameid(group.groupname, group._id)}
+            active={group._id === groupid}
+          >
+            <Avatar
+              src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
+            />
+            <div className="sidebarChat__info">
+              <h2>{group.groupname}</h2>
+              <p>...</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

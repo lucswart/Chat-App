@@ -8,7 +8,7 @@ import { useStateValue } from "./StateProvider";
 import ScrollToBottom from "react-scroll-to-bottom";
 import CryptoJS from "crypto-js";
 
-function Chat({ messages }) {
+function Chat({ messages, groupid, groupname }) {
   //Get user values
   const [{ user }] = useStateValue();
 
@@ -23,7 +23,7 @@ function Chat({ messages }) {
 
     if (input) {
       await axios.post("/messages/new", {
-        group: "test",
+        group: groupid,
         message: CryptoJS.AES.encrypt(input, secretkey, {
           mode: CryptoJS.mode.CFB,
         }).toString(),
@@ -43,8 +43,8 @@ function Chat({ messages }) {
         <Avatar />
 
         <div className="chat__headerInfo">
-          <h3>Room name</h3>
-          <p>Last seen at...</p>
+          <h3>{groupname}</h3>
+          <p>Description</p>
         </div>
 
         <div className="div chat__headerRight">
@@ -66,8 +66,8 @@ function Chat({ messages }) {
             className={`chat__message ${
               message.userid === user?.uid && "chat__receiver"
             }`}
-            key={message.id}
-            id={message.id}
+            key={message._id}
+            id={message._id}
           >
             <span className="chat__name">{message.name}</span>
             <span className="chat__messagetext">

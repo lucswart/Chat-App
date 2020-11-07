@@ -102,7 +102,6 @@ app.get("/groups/sync", (req, res) => {
     .toArray(function (err, data) {
       if (err) throw res.status(500).send(err);
       res.status(201).send(data);
-      console.log(data);
     });
 });
 
