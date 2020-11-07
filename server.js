@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import Messages from "./dbMessages.js";
+import Groups from "./dbGroups.js";
+import GroupsPeople from "./dbGroupsPeople.js";
 import Pusher from "pusher";
 import cors from "cors";
+import checkAuth from "./Check-Auth.js";
 
 //App config
 const app = express();
@@ -21,11 +24,15 @@ app.use(express.json());
 app.use(cors());
 
 //DB confg
-mongoose.connect(process.env.MONGODB_URI, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb+srv://admin:Lxyc9pwKslhPtpPk@cluster0.bm881.mongodb.net/<chatappdb>?retryWrites=true&w=majority",
+  {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const db = mongoose.connection;
 db.once("open", () => {
@@ -39,11 +46,11 @@ db.once("open", () => {
     if (change.operationType === "insert") {
       const messageDetails = change.fullDocument;
       pusher.trigger("messages", "inserted", {
-        //DO NOT USE THIS IN PRODUCTION ENVIRONMENT MESSAGES ARE NOT ENCRYPTED.
+        //messages are encrypted client-side.
+        group: messageDetails.groupid,
         name: messageDetails.name,
         message: messageDetails.message,
         timestamp: messageDetails.timestamp,
-        received: messageDetails.received,
       });
     } else {
       console.log("Error triggering Pusher");
@@ -53,8 +60,8 @@ db.once("open", () => {
 
 //API Routes
 
-app.get("/groups/sync", (req, res) => {
-  Messages.find((err, data) => {
+app.get("/groupspeople/sync", (req, res) => {
+  GroupsPeople.find((err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -63,10 +70,46 @@ app.get("/groups/sync", (req, res) => {
   });
 });
 
+app.post("/groupspeople/new", (req, res) => {
+  const dbGroupsPeople = req.body;
+
+  GroupsPeople.create(dbGroupsPeople, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send(data);
+    }
+  });
+});
+
+app.get("/groups/sync", (req, res) => {
+  db.collection("groups")
+    .aggregate([
+      {
+        $match: {
+          user: req.query.user,
+        },
+      },
+      {
+        $lookup: {
+          from: "peoplegroups",
+          localField: "_id",
+          foreignField: "groupid",
+          as: "User",
+        },
+      },
+    ])
+    .toArray(function (err, data) {
+      if (err) throw res.status(500).send(err);
+      res.status(201).send(data);
+      console.log(data);
+    });
+});
+
 app.post("/groups/new", (req, res) => {
   const dbGroup = req.body;
 
-  Messages.create(dbGroup, (err, data) => {
+  Groups.create(dbGroup, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -76,7 +119,7 @@ app.post("/groups/new", (req, res) => {
 });
 
 app.get("/messages/sync", (req, res) => {
-  Messages.find((err, data) => {
+  Messages.find({ group: req.query.group }, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
